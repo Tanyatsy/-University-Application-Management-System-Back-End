@@ -1,10 +1,13 @@
 ﻿using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unipply_Recommendations.DataStructures;
+using Unipply_Recommendations.Repositories;
 
 namespace Unipply_Recommendations.Services
 {
@@ -14,6 +17,12 @@ namespace Unipply_Recommendations.Services
         private static string TrainingDataRelativePathAmazon = $"{BaseDataSetRelativePath}/Hobbies_Faculties.txt";
         private static string TrainingDataLocationAmazon = GetAbsolutePath(TrainingDataRelativePathAmazon);
 
+        private readonly RecommendationDataRepository _recommendationDataRepository;
+
+        public FacultyRecommender(RecommendationDataRepository recommendationDataRepository)
+        {
+            _recommendationDataRepository = recommendationDataRepository;
+        }
 
         public PredictionEngine<FacultyEntry, Faculty_prediction> predictionengine;
 
@@ -24,6 +33,7 @@ namespace Unipply_Recommendations.Services
 
             //STEP 2: Read the trained data using TextLoader by defining the schema for reading the product co-purchase dataset
             //        Do remember to replace amazon0302.txt with dataset from https://snap.stanford.edu/data/amazon0302.html
+
             var traindata = mlContext.Data.LoadFromTextFile(path: TrainingDataLocationAmazon,
                                                       columns: new[]
                                                                 {
@@ -33,7 +43,40 @@ namespace Unipply_Recommendations.Services
                                                                 },
                                                       hasHeader: true,
                                                       separatorChar: '\t');
+            /*
+                        // New Data
+                        RecommendationData[] recommendationData = new RecommendationData[]
+                        {
+                            new RecommendationData
+                            {
+                                Label = 0,
+                                HobbyID = 1,
+                                FacultyID = 5
+                            },
+                             new RecommendationData
+                            {
+                                Label = 1,
+                                HobbyID = 1,
+                                FacultyID = 6
+                            },
+                              new RecommendationData
+                            {
+                                Label = 2,
+                                HobbyID = 1,
+                                FacultyID = 15
+                            },
+                         };
+            */
+            var recommendationData = _recommendationDataRepository.Get().Select(data => new Recommendation 
+            {
+                Label = data.Label,
+                HobbyID = data.HobbyID,
+                FacultyID = data.FacultyID
+            });
 
+            //load trainig data from database;
+            IDataView newData = mlContext.Data.LoadFromEnumerable<Recommendation>(recommendationData);
+          
             //STEP 3: Your data is already encoded so all you need to do is specify options for MatrxiFactorizationTrainer with a few extra hyperparameters
             //        LossFunction, Alpa, Lambda and a few others like K and C as shown below and call the trainer. 
             MatrixFactorizationTrainer.Options options = new MatrixFactorizationTrainer.Options();
@@ -51,11 +94,47 @@ namespace Unipply_Recommendations.Services
 
             //STEP 5: Train the model fitting to the DataSet
             //Please add Amazon0302.txt dataset from https://snap.stanford.edu/data/amazon0302.html to Data folder if FileNotFoundException is thrown.
-            ITransformer model = est.Fit(traindata);
+            //Define DataViewSchema for data preparation pipeline and trained model
+          
+            try
+            {
+                DataViewSchema modelSchema;
+                // Load trained model
+                ITransformer trainedModel = mlContext.Model.Load("model.zip", out modelSchema);
+             
+                // Retrain model
+                ITransformer retrainedModel = est.Fit(newData, trainedModel.Transform(newData));
 
-            //STEP 6: Create prediction engine and predict the score for Product 63 being co-purchased with Product 3.
-            //        The higher the score the higher the probability for this particular productID being co-purchased 
-            return mlContext.Model.CreatePredictionEngine<FacultyEntry, Faculty_prediction>(model);
+                mlContext.Model.Save(retrainedModel, traindata.Schema, "model.zip");
+                //STEP 6: Create prediction engine and predict the score for Product 63 being co-purchased with Product 3.
+                //        The higher the score the higher the probability for this particular productID being co-purchased 
+                var metrics = mlContext.Regression.Evaluate(trainedModel.Transform(newData));
+                Console.WriteLine($"  LossFunction: {metrics.LossFunction:#.##}");
+                Console.WriteLine($"  MeanAbsoluteError:   {metrics.MeanAbsoluteError:#.##}");
+                Console.WriteLine($"  MeanSquaredError:   {metrics.MeanSquaredError:#.##}");
+                Console.WriteLine($"  RootMeanSquaredError:   {metrics.RootMeanSquaredError:#.##}");
+                Console.WriteLine($"  RSquared:   {metrics.RSquared:#.##}");
+                Console.WriteLine();
+
+                return mlContext.Model.CreatePredictionEngine<FacultyEntry, Faculty_prediction>(trainedModel);
+            }
+            catch (Exception e)
+            {
+                ITransformer model = est.Fit(newData);
+                mlContext.Model.Save(model, traindata.Schema, "model.zip");
+                //STEP 6: Create prediction engine and predict the score for Product 63 being co-purchased with Product 3.
+                //        The higher the score the higher the probability for this particular productID being co-purchased 
+                var metrics = mlContext.Regression.Evaluate(model.Transform(traindata));
+
+                Console.WriteLine($"  LossFunction: {metrics.LossFunction:#.##}");
+                Console.WriteLine($"  MeanAbsoluteError:   {metrics.MeanAbsoluteError:#.##}");
+                Console.WriteLine($"  MeanSquaredError:   {metrics.MeanSquaredError:#.##}");
+                Console.WriteLine($"  RootMeanSquaredError:   {metrics.RootMeanSquaredError:#.##}");
+                Console.WriteLine($"  RSquared:   {metrics.RSquared:#.##}");
+                Console.WriteLine();
+
+                return mlContext.Model.CreatePredictionEngine<FacultyEntry, Faculty_prediction>(model);
+            }
         }
 
         public List<int> PredictFacultiesForHobby(int hobbieNumber, PredictionEngine<FacultyEntry, Faculty_prediction> predictionengine)
@@ -120,6 +199,29 @@ namespace Unipply_Recommendations.Services
 
     public class FacultyEntry
     {
+        [KeyType(count: 100)]
+        public uint HobbyID { get; set; }
+
+        [KeyType(count: 100)]
+        public uint FacultyID { get; set; }
+    }
+
+    public class RecommendationData
+    {
+        public ObjectId _id { get; set; }
+        public Single Label { get; set; }
+
+        [KeyType(count: 100)]
+        public uint HobbyID { get; set; }
+
+        [KeyType(count: 100)]
+        public uint FacultyID { get; set; }
+    }
+
+    public class Recommendation
+    {
+        public Single Label { get; set; }
+
         [KeyType(count: 100)]
         public uint HobbyID { get; set; }
 

@@ -22,9 +22,16 @@ namespace IndexService.Repositories
             return hobbies;
         }
 
-        /*  public void CreateManyAsync(List<Hobby> hobbies)
-          {
-              _hobbies.InsertManyAsync(hobbies);
-          }*/
+        public Hobby GetLast()
+        {
+            var hobbies = _hobbies.Find(data => true).ToEnumerable();
+            return hobbies.Last();
+        }
+
+        public Hobby Create(Hobby hobby)
+        {
+            _hobbies.InsertOne(hobby);
+            return hobby;
+        }
     }
 }

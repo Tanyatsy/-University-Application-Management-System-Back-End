@@ -12,24 +12,22 @@ namespace Unipply.Controllers
     [Route("[controller]")]
     public class HobbiesController : ControllerBase
     {
-        private readonly ILogger<FacultiesController> _logger;
-        private readonly IRecommendationsIteractor _recommendationsIteractor;
+        private readonly ILogger<HobbiesController> _logger;
+        private readonly IRecommendationsService _recommendationsService;
 
         public HobbiesController(
-            ILogger<FacultiesController> logger,
-            IRecommendationsIteractor recommendationsIteractor)
+            ILogger<HobbiesController> logger,
+            IRecommendationsService recommendationsService)
         {
             _logger = logger;
-            _recommendationsIteractor = recommendationsIteractor;
+            _recommendationsService = recommendationsService;
         }
 
         [HttpGet]
         [Route("all")]
         public async Task<IEnumerable<HobbyModel>> GetAllHobbiesAsync()
         {
-            var response = await _recommendationsIteractor.GetRecomendationsHobbiesAsync();
-            return JsonConvert
-                       .DeserializeObject<List<HobbyModel>>(await response.Content.ReadAsStringAsync());
+            return await _recommendationsService.GetRecomendationsHobbiesAsync();
         }
     }
 }

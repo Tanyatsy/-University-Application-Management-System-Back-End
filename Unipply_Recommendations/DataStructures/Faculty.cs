@@ -24,9 +24,15 @@ namespace Unipply_Recommendations.DataStructures
 
         public Faculty Get(int id)
         {
-            return _faculties.Value.Single(m => m.facultyId == id);
+            return _faculties.Value.Single(f => f.facultyId == id);
         }
-      
+
+        public Faculty Get(string faculty)
+        {
+            var r = _faculties.Value.Where(f => f.title.Trim().ToLower().Contains(faculty.Trim().ToLower())).ToList();
+            return _faculties.Value.Single(f => f.title.Trim().ToLower().Contains(faculty.Trim().ToLower()));
+        }
+
         private static List<Faculty> LoadFacultyDataAsync()
         {
             FacultyRepository facultyRepository = new();

@@ -8,6 +8,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Unipply.Services;
 using System.Threading.Tasks;
+using Unipply.Models.User;
 
 namespace Unipply.Controllers
 {
@@ -37,7 +38,7 @@ namespace Unipply.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                {
-                        new Claim("UserID", Guid.NewGuid().ToString()),
+                        new Claim("UserID", user.Id.ToString()),
                         new Claim("Email", model.Email)
                }),
                     Expires = DateTime.UtcNow.AddDays(1),

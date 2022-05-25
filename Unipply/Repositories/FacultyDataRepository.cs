@@ -13,7 +13,7 @@ namespace Unipply.Repositories
             _context = dbContext;
         }
 
-        public IQueryable<FacultyData> GetAsync()
+        public IQueryable<FacultyData> Get()
         {
             return _context.FacultyData;
         }
@@ -21,6 +21,6 @@ namespace Unipply.Repositories
 
     public interface IFacultyDataRepository
     {
-        IQueryable<FacultyData> GetAsync();
+        IQueryable<FacultyData> Get();
     }
 }

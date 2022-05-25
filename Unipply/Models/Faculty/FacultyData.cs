@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Unipply.Models.Specialty;
+using Unipply.Models.User;
 
 namespace Unipply.Models.Faculty
 {
@@ -15,5 +16,6 @@ namespace Unipply.Models.Faculty
         public string Title { get; set; }
         public string Info { get; set; }
         public virtual ICollection<SpecialtyData> Specialties { get; set; }
+        public virtual ICollection<UserProfileData> UserProfileDatas { get; set; }
     }
 }

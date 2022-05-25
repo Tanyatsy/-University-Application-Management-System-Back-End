@@ -11,7 +11,6 @@ C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Microsoft.O
 C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\tanya\Documents\University\Unipply\Unipply\obj\Debug\net5.0\Unipply.csproj.AssemblyReference.cache
 C:\Users\tanya\Documents\University\Unipply\Unipply\obj\Debug\net5.0\Unipply.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\tanya\Documents\University\Unipply\Unipply\obj\Debug\net5.0\Unipply.AssemblyInfoInputs.cache
 C:\Users\tanya\Documents\University\Unipply\Unipply\obj\Debug\net5.0\Unipply.AssemblyInfo.cs
@@ -53,3 +52,10 @@ C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\runtimes\wi
 C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Humanizer.dll
 C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\RabbitMQ.Client.dll
+C:\Users\tanya\Documents\University\Unipply\Unipply\obj\Debug\net5.0\Unipply.csproj.AssemblyReference.cache
+C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Google.Apis.dll
+C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Google.Apis.Auth.PlatformServices.dll
+C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Google.Apis.Auth.dll
+C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Google.Apis.Core.dll
+C:\Users\tanya\Documents\University\Unipply\Unipply\bin\Debug\net5.0\Google.Apis.Gmail.v1.dll

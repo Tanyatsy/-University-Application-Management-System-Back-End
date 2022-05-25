@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Unipply.Context;
 using Unipply.Models;
+using Unipply.Models.User;
 
 namespace Unipply.Repositories
 {
@@ -20,7 +22,12 @@ namespace Unipply.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public IQueryable<UserData> FindUserByName(string userName)
+        public IQueryable<UserData> FindUserById(Guid id)
+        {
+            return _context.UserData.Where(u => u.Id.Equals(id));
+        }
+
+         public IQueryable<UserData> FindUserByName(string userName)
         {
             return _context.UserData.Where(u => u.UserName.Equals(userName));
         }
@@ -34,6 +41,7 @@ namespace Unipply.Repositories
     public interface IUserDataRepository
     {
         Task CreateAsync(UserData data);
+        IQueryable<UserData> FindUserById(Guid id);
         IQueryable<UserData> FindUserByName(string userName);
         IQueryable<UserData> FindUserByEmail(string userEmail);
     }

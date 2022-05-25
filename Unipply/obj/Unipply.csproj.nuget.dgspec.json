@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[6.4.4, )"
             },
+            "Google.Apis.Gmail.v1": {
+              "target": "Package",
+              "version": "[1.57.0.2650, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.16, )"
@@ -73,6 +77,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[5.0.10, )"
+            },
+            "RabbitMQ.Client": {
+              "target": "Package",
+              "version": "[6.2.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

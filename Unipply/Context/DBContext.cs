@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using Unipply.Models;
 using Unipply.Models.Faculty;
 using Unipply.Models.Specialty;
+using Unipply.Models.User;
 using Xor.Core.Repositories.Mappings;
 
 namespace Unipply.Context
@@ -12,12 +14,28 @@ namespace Unipply.Context
         public DbSet<UserData> UserData { get; set; }
         public DbSet<FacultyData> FacultyData { get; set; }
         public DbSet<SpecialtyData> SpecialtyData { get; set; }
+        public DbSet<UserProfileData> UserProfileData { get; set; }
         public DBContext(DbContextOptions<DBContext> options)
            : base(options)
         { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+          // modelBuilder.Entity<FacultyDataUserProfileData>().HasKey(t =>new { t.UserProfileDatasId, t.FavouritesFacultiesId });
+                
+
+            /* modelBuilder.Entity<FacultyData>()
+                 .HasMany<SpecialtyData>(s => s.Specialties)
+                 .WithOne(c => c.Faculty);
+
+             modelBuilder.Entity<UserProfileData>()
+                 .HasMany<FacultyData>(s => s.FavouritesFaculties)
+                 .WithMany(c => c.UserProfileDatas);*/
+            /*
+                        modelBuilder.Entity<FacultyData>()
+                           .HasMany<RecommendationFacultyData>(s => s.FavouritesFaculties)
+                           .WithOne(c => c.FacultyData);
+            */
             /*modelBuilder.Entity<FacultyData>()
             .HasData(
                 new FacultyData
@@ -76,431 +94,431 @@ namespace Unipply.Context
                 }
             );*/
 
-            modelBuilder.ApplyConfiguration(new FacultyDataMap());
+            //modelBuilder.ApplyConfiguration(new FacultyDataMap());
 
-            modelBuilder.Entity<SpecialtyData>()
-            .HasData(
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Engineering and management in Energetics",
-                    FacultyId = Guid.Parse("f6aa4c0e-edc2-4bad-a22b-8516e3637546"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Electroenergetics",
-                    FacultyId = Guid.Parse("f6aa4c0e-edc2-4bad-a22b-8516e3637546"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Thermoenergetics",
-                    FacultyId = Guid.Parse("f6aa4c0e-edc2-4bad-a22b-8516e3637546"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Engineering and Quality Management",
-                    FacultyId = Guid.Parse("f6aa4c0e-edc2-4bad-a22b-8516e3637546"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Engineering and industrial technologies",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Transport Engineering and Management",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Technology of car construction",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Machinery and Production Systems",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Mechanical engineering",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Machinery and Refrigerating installations, air-conditioning systems",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Product design engineering",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Industrial Design",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Motor Transport Engineering",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Rail transport engineering",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Transport and shipping services",
-                    FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Interior Design",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Sculpture",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Environmental engineering",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Mechanical Engineering in Construction",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Engineering of construction materials and fittings",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Architecture",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Urban planning and landscape management",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Landscape architecture and green spaces",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Railways. Roads and Bridges",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Water Protection and Engineering",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Engineering of gas supply and heating systems, ventilation",
-                    FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Decorative Arts",
-                    FacultyId = Guid.Parse("0e2aed9e-99eb-41c4-a3ad-a06bf63459e2"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Engineering and Industrial Technologies",
-                    FacultyId = Guid.Parse("0e2aed9e-99eb-41c4-a3ad-a06bf63459e2"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Textile, clothes, footwear and leather processing",
-                    FacultyId = Guid.Parse("0e2aed9e-99eb-41c4-a3ad-a06bf63459e2"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Accounting",
-                    FacultyId = Guid.Parse("5ec9f43e-b68c-48cc-a983-1463716f8b03"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Marketing and Logistics",
-                    FacultyId = Guid.Parse("5ec9f43e-b68c-48cc-a983-1463716f8b03"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Business and Administration",
-                    FacultyId = Guid.Parse("5ec9f43e-b68c-48cc-a983-1463716f8b03"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Law",
-                    FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Engineering and Management in constructions",
-                    FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Wood processing technology",
-                    FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Mining engineering",
-                    FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Geodesy, topography and mapping",
-                    FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Assessment of Real Estate",
-                    FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Construction and civil engineering",
-                    FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Fire Engineering and Civil Protection",
-                    FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Сomputers and Networks",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Informational Management",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Information technology",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Informational security",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Software Engineering",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Applied Informatics",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Microelectronics and nanotechnologies",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Automation and Information Science",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Robotics and mechatronics",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Biomedical systems engineering",
-                    FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Engineering and Management in Telecommunications",
-                    FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Telecommunications technologies and systems",
-                    FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Telecommunications networks and software",
-                    FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Radio and television communications",
-                    FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Applied electronics",
-                    FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Technology and management of catering",
-                    FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Technology of Food Production",
-                    FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Technology of Wine and Fermented Products",
-                    FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Public nutrition services",
-                    FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
-                    Description = "Short Description"
-                },
-                new SpecialtyData
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Industrial Biotechnology",
-                    FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
-                    Description = "Short Description"
-                }
-            );
+            /* modelBuilder.Entity<SpecialtyData>()
+             .HasData(
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Engineering and management in Energetics",
+                     FacultyId = Guid.Parse("f6aa4c0e-edc2-4bad-a22b-8516e3637546"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Electroenergetics",
+                     FacultyId = Guid.Parse("f6aa4c0e-edc2-4bad-a22b-8516e3637546"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Thermoenergetics",
+                     FacultyId = Guid.Parse("f6aa4c0e-edc2-4bad-a22b-8516e3637546"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Engineering and Quality Management",
+                     FacultyId = Guid.Parse("f6aa4c0e-edc2-4bad-a22b-8516e3637546"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Engineering and industrial technologies",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Transport Engineering and Management",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Technology of car construction",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Machinery and Production Systems",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Mechanical engineering",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Machinery and Refrigerating installations, air-conditioning systems",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Product design engineering",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Industrial Design",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Motor Transport Engineering",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Rail transport engineering",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Transport and shipping services",
+                     FacultyId = Guid.Parse("78050741-da48-451d-bdc7-e05031aa724e"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Interior Design",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Sculpture",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Environmental engineering",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Mechanical Engineering in Construction",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Engineering of construction materials and fittings",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Architecture",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Urban planning and landscape management",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Landscape architecture and green spaces",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Railways. Roads and Bridges",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Water Protection and Engineering",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Engineering of gas supply and heating systems, ventilation",
+                     FacultyId = Guid.Parse("d543979a-8a39-4213-9197-84c29d4cf58a"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Decorative Arts",
+                     FacultyId = Guid.Parse("0e2aed9e-99eb-41c4-a3ad-a06bf63459e2"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Engineering and Industrial Technologies",
+                     FacultyId = Guid.Parse("0e2aed9e-99eb-41c4-a3ad-a06bf63459e2"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Textile, clothes, footwear and leather processing",
+                     FacultyId = Guid.Parse("0e2aed9e-99eb-41c4-a3ad-a06bf63459e2"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Accounting",
+                     FacultyId = Guid.Parse("5ec9f43e-b68c-48cc-a983-1463716f8b03"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Marketing and Logistics",
+                     FacultyId = Guid.Parse("5ec9f43e-b68c-48cc-a983-1463716f8b03"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Business and Administration",
+                     FacultyId = Guid.Parse("5ec9f43e-b68c-48cc-a983-1463716f8b03"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Law",
+                     FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Engineering and Management in constructions",
+                     FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Wood processing technology",
+                     FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Mining engineering",
+                     FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Geodesy, topography and mapping",
+                     FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Assessment of Real Estate",
+                     FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Construction and civil engineering",
+                     FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Fire Engineering and Civil Protection",
+                     FacultyId = Guid.Parse("0f64242d-fda3-4885-8a7f-4624731adfde"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Сomputers and Networks",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Informational Management",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Information technology",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Informational security",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Software Engineering",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Applied Informatics",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Microelectronics and nanotechnologies",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Automation and Information Science",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Robotics and mechatronics",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Biomedical systems engineering",
+                     FacultyId = Guid.Parse("f3664286-15e9-49e5-b952-c02d744e09db"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Engineering and Management in Telecommunications",
+                     FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Telecommunications technologies and systems",
+                     FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Telecommunications networks and software",
+                     FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Radio and television communications",
+                     FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Applied electronics",
+                     FacultyId = Guid.Parse("13f040e8-f953-4eb4-af06-a56501e10ef0"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Technology and management of catering",
+                     FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Technology of Food Production",
+                     FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Technology of Wine and Fermented Products",
+                     FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Public nutrition services",
+                     FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
+                     Description = "Short Description"
+                 },
+                 new SpecialtyData
+                 {
+                     Id = Guid.NewGuid(),
+                     Title = "Industrial Biotechnology",
+                     FacultyId = Guid.Parse("41ba4ac4-5991-4977-a134-7c7750095021"),
+                     Description = "Short Description"
+                 }
+             );*/
         }
     }
 }

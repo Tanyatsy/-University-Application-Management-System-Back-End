@@ -13,14 +13,14 @@ namespace Unipply.Services
         {
         }
 
-        public async Task<HttpResponseMessage> GetRecomendationsFacultiesAsync(List<string> hobbies)
+        public async Task<HttpResponseMessage> GetRecomendationsFacultiesAsync(List<string> hobbies, Guid userId)
         {
             using var client = new HttpClient();
             client.BaseAddress = new Uri("http://localhost:6000/");
 
             var content = new StringContent(JsonConvert.SerializeObject(hobbies).ToString(), Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await client.PostAsync($"Recommender/faculties", content);
+            
+            HttpResponseMessage response = await client.PostAsync($"Recommender/faculties?userId={userId.ToString()}", content);
 
             return response;
         }
@@ -38,7 +38,7 @@ namespace Unipply.Services
 
     public interface IRecommendationsIteractor
     {
-        Task<HttpResponseMessage> GetRecomendationsFacultiesAsync(List<string> hobbies);
+        Task<HttpResponseMessage> GetRecomendationsFacultiesAsync(List<string> hobbies, Guid userId);
         Task<HttpResponseMessage> GetRecomendationsHobbiesAsync();
     }
 }

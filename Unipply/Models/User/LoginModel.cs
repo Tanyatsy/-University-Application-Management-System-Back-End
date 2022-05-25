@@ -1,4 +1,4 @@
-﻿namespace Unipply.Models
+﻿namespace Unipply.Models.User
 {
     public class LoginModel
     {

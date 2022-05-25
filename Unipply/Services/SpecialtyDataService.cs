@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using Unipply.Models.Specialty;
 using Unipply.Repositories;
@@ -17,12 +19,18 @@ namespace Unipply.Services
 
         public async Task<List<SpecialtyData>> GetAsync()
         {
-            return await specialtyDataRepository.GetAsync().ToListAsync();
+            return await specialtyDataRepository.Get().ToListAsync();
+        }
+
+        public SpecialtyData GetSpecialtyByTitle(string title)
+        {
+            return specialtyDataRepository.Get().FirstOrDefault(x => x.Title.Trim().ToLower() == title.Trim().ToLower());
         }
     }
 
     public interface ISpecialtyDataService
     {
        Task<List<SpecialtyData>> GetAsync();
+       SpecialtyData GetSpecialtyByTitle(string title);
     }
 }

@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Threading.Tasks;
 using Unipply.Context;
-using Unipply.Models;
-using Unipply.Models.Faculty;
 using Unipply.Models.Specialty;
 
 namespace Unipply.Repositories
@@ -17,14 +14,14 @@ namespace Unipply.Repositories
             _context = dbContext;
         }
 
-        public IQueryable<SpecialtyData> GetAsync()
+        public IQueryable<SpecialtyData> Get()
         {
-            return _context.SpecialtyData;
+            return _context.SpecialtyData.Include(x => x.Faculty);
         }
     }
 
     public interface ISpecialtyDataRepository
     {
-        IQueryable<SpecialtyData> GetAsync();
+        IQueryable<SpecialtyData> Get();
     }
 }

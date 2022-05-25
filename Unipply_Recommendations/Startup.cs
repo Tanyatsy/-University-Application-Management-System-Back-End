@@ -1,3 +1,5 @@
+using IndexService.Consumers;
+using IndexService.MessageBus;
 using IndexService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +39,8 @@ namespace Unipply_Recommendations
             });
 
             services.AddSingleton<FacultyRecommender, FacultyRecommender>(op => {
-                FacultyRecommender recommender = new FacultyRecommender();
+                RecommendationDataRepository recommendationDataRepository = new();
+                FacultyRecommender recommender = new FacultyRecommender(recommendationDataRepository);
                
                 recommender.predictionengine = recommender.LoadData();
 
@@ -47,10 +50,14 @@ namespace Unipply_Recommendations
 
             services.AddTransient<FacultyRepository>();
             services.AddTransient<HobbyRepository>();
+            services.AddTransient<RecommendationDataRepository>();
             /*var provider = services.BuildServiceProvider();
             var dependency = provider.GetRequiredService<FacultyRepository>();
             Faculty faculty = new(dependency);
             faculty.AddFacultiesMigration();*/
+
+            services.AddHostedService<FacultiesConsumer>();
+            services.AddScoped<IMessageBusClient, RabbitMQClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

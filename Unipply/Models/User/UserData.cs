@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unipply.Models
+namespace Unipply.Models.User
 {
     public class UserData
     {
